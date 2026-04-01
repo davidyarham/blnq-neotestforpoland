@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO</title>
+    <link href="https://www.blnq.studio/skills/hsbc.css" rel="stylesheet"></link>
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three-globe@2.31.1/dist/three-globe.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-wrapper">
+	<header class="masthead">
+		<div class="masthead__content">
+			<div class="logo" aria-label="HSBC UK">
+				<svg class="logo__image" viewBox="0 0 315.9 85" role="img" aria-label="HSBC UK">
+					<path d="M42.6 0h85v85h-85z" fill="#ffffff"></path>
+					<path d="M170.1 42.6 127.6 0v85.1zM85.1 42.6 127.6 0h-85z" fill="#db0011"></path>
+					<path d="m0 42.6 42.6 42.5V0zM85.1 42.6 42.6 85.1h85z" fill="#db0011"></path>
+					<path fill="currentColor"
+						d="M207.4 45.1H192v15.2h-7.7V24.7h7.7v14.6h15.4V24.7h7.7v35.6h-7.7V45.1zM233.7 61c-7.7 0-14-3.1-14.1-11.6h7.7c.1 3.8 2.3 6.1 6.5 6.1 3.1 0 6.7-1.6 6.7-5.1 0-2.8-2.4-3.6-6.4-4.8l-2.6-.7c-5.6-1.6-11.2-3.8-11.2-10.2 0-7.9 7.4-10.6 14.1-10.6 6.9 0 12.9 2.4 13 10.3h-7.7c-.3-3.2-2.2-5.1-5.8-5.1-2.9 0-5.7 1.5-5.7 4.7 0 2.6 2.4 3.4 7.4 5l3 .9c6.1 1.9 10 4 10 10-.1 8-7.9 11.1-14.9 11.1zM252.9 24.8h12.4c2.3-.1 4.7 0 7 .4 4.3 1 7.6 3.8 7.6 8.6 0 4.6-2.9 6.9-7.1 8 4.8.9 8.4 3.3 8.4 8.6 0 8.1-8 9.9-14.2 9.9h-14l-.1-35.5zm12.4 14.8c3.4 0 6.9-.7 6.9-4.8 0-3.7-3.2-4.7-6.4-4.7h-5.4v9.5h4.9zM266 55c3.6 0 7.1-.8 7.1-5.2s-3-5.2-6.7-5.2h-6.1V55h5.7zM301.2 61c-11.5 0-16.6-7.3-16.6-18.2s5.7-18.8 17-18.8c7.1 0 14 3.2 14.2 11.2h-8c-.4-3.6-2.8-5.4-6.2-5.4-7 0-9.1 7.5-9.1 13.2 0 5.7 2.1 12.3 8.8 12.3 3.5 0 6.1-1.9 6.6-5.5h8c-.8 8.2-7.3 11.2-14.7 11.2z">
+					</path>
+				</svg>
+			</div>
+			<div class="masthead__center">
+				<div class="global-search">
+					<input type="text" class="global-search__input" placeholder="Ask anything…" aria-label="AI search">
+				</div>
+			</div>
+			<div class="masthead__right">
+				<button class="btn-icon" aria-label="Notifications" aria-expanded="false" aria-controls="notif-dropdown" id="notif-toggle">
+					<i data-lucide="bell"></i>
+					<span class="badge badge--alert">3</span>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<div class="dropdown dropdown--notif" id="notif-dropdown" role="dialog" aria-label="Notifications">
+		<div class="dropdown__header">
+			<h3 class="text-sm fw-600">Notifications</h3>
+			<button class="btn-link" id="notif-clear" type="button">Clear all</button>
+		</div>
+		<div class="dropdown__list">
+			<div class="notif-item notif-item--unread">
+				<div class="notif-icon notif-icon--green"><i data-lucide="arrow-down-left"></i></div>
+				<div class="notif-item__body">
+					<p class="text-xs">Payment of <strong>5,200.00 AUD</strong> received from ABC Corp</p>
+					<span class="text-2xs color-secondary">2 hours ago</span>
+				</div>
+			</div>
+
+			<div class="notif-item notif-item--unread">
+				<div class="notif-icon notif-icon--amber"><i data-lucide="alert-triangle"></i></div>
+				<div class="notif-item__body">
+					<p class="text-xs">Unusual activity detected on account <strong>253-070767-439</strong></p>
+					<span class="text-2xs color-secondary">5 hours ago</span>
+				</div>
+			</div>
+			<div class="notif-item notif-item--unread">
+				<div class="notif-icon notif-icon--neutral"><i data-lucide="file-text"></i></div>
+				<div class="notif-item__body">
+					<p class="text-xs">Your February statement is now available</p>
+					<span class="text-2xs color-secondary">1 day ago</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ai-response-modal" id="ai-response-modal">
+		<div class="ai-response-modal__content">
+			<div class="ai-response-modal__messages" id="chat-messages"></div>
+			<div class="ai-response-modal__input-area">
+				<input type="text" class="ai-response-modal__input" id="modal-input" placeholder="Ask a follow-up question…" aria-label="Follow-up question">
+				<button class="ai-response-modal__send" id="modal-send">Send</button>
+			</div>
+		</div>
+</div>
+
+
+
+	<div class="desktop-shell">
+		<aside class="sidenav" aria-label="Primary navigation">
+			<div class="sidenav__inner">
+				<nav class="sidenav__nav">
+					<button class="nav-item nav-item--active" data-page="dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
+					<button class="nav-item" data-page="accounts"><i data-lucide="wallet"></i><span>Accounts</span></button>
+					<button class="nav-item" data-page="payments"><i data-lucide="send"></i><span>Payments</span></button>
+					<button class="nav-item" data-page="loans"><i data-lucide="hand-coins"></i><span>Loans</span></button>
+					<button class="nav-item" data-page="insights"><i data-lucide="bar-chart-3"></i><span>Insights</span></button>
+					<button class="nav-item" data-page="reports"><i data-lucide="file-bar-chart"></i><span>Reports</span></button>
+					<button class="nav-item" data-page="permissions"><i data-lucide="shield-check"></i><span>Permissions</span></button>
+				</nav>
+				<div class="sidenav__footer">
+					<button class="nav-item" id="theme-toggle" aria-label="Switch to dark mode" aria-pressed="false"><i data-lucide="moon"></i><span>Theme</span></button>
+					<button class="nav-item"><i data-lucide="settings-2"></i><span>Settings</span></button>
+					<button class="nav-item"><i data-lucide="circle-user-round"></i><span>Profile</span></button>
+				</div>
+			</div>
+		</aside>
+
+		<main class="content" data-animating="true">
+			<div id="page-dashboard" class="page-view page-view--active">
+				
+				<!-- Page header -->
+				<div class="page-header">
+					<div>
+						<p class="eyebrow">Overview</p>
+						<h1 class="page-title">Welcome back, Mary</h1>
+					</div>
+					<div class="page-header__actions">
+						<button class="reset-layout-btn btn-ghost btn-sm" id="reset-layout" type="button" aria-label="Reset layout">
+						<i data-lucide="rotate-ccw"></i>
+						<span>Reset</span>
+					</button>
+						<button class="btn-ghost btn-sm" id="dashboard-customize">
+						<i data-lucide="sliders-horizontal"></i>
+						<span>Customize</span>
+					</button>
+					</div>
+				</div>
+
+				<!-- Balance hero -->
+				<div class="balance-hero" data-section-id="combined-cash-balance">
+					<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+					<div class="balance-hero__cards">
+						<div class="balance-card balance-card--primary">
+							<div class="balance-card__icon"><i data-lucide="banknote"></i></div>
+							<span class="balance-card__label">Combined cash balance</span>
+							<span class="balance-card__amount" id="combined-amount">0.00</span>
+							<span class="balance-card__sub">GBP · FX adjusted</span>
+						</div>
+						<div class="balance-card">
+							<div class="balance-card__icon balance-card__icon--red"><i data-lucide="trending-down"></i></div>
+							<span class="balance-card__label">Spending this month</span>
+							<span class="balance-card__amount balance-card__amount--red">4,236.42</span>
+							<span class="balance-card__sub">GBP</span>
+						</div>
+						<div class="balance-card">
+							<div class="balance-card__icon balance-card__icon--green"><i data-lucide="credit-card"></i></div>
+							<span class="balance-card__label">Total credit available</span>
+							<span class="balance-card__amount">82,200.00</span>
+							<span class="balance-card__sub">GBP</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Quick actions strip -->
+				<div class="quick-strip" data-section-id="quick-actions">
+					<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+					<button class="quick-btn" id="send-money-btn">
+					<span class="quick-btn__icon"><i data-lucide="send"></i></span>
+					<span class="quick-btn__text">
+						<strong>Send Money</strong>
+						<span>Domestic or international</span>
+					</span>
+					<i data-lucide="chevron-right" class="quick-btn__arrow"></i>
+				</button>
+					<button class="quick-btn" onclick="alert('Work in Progress')">
+					<span class="quick-btn__icon"><i data-lucide="arrow-left-right"></i></span>
+					<span class="quick-btn__text">
+						<strong>Transfer</strong>
+						<span>Between your accounts</span>
+					</span>
+					<i data-lucide="chevron-right" class="quick-btn__arrow"></i>
+				</button>
+					<button class="quick-btn" onclick="alert('Work in Progress')">
+					<span class="quick-btn__icon"><i data-lucide="repeat"></i></span>
+					<span class="quick-btn__text">
+						<strong>Standing Orders</strong>
+						<span>Manage recurring</span>
+					</span>
+					<i data-lucide="chevron-right" class="quick-btn__arrow"></i>
+				</button>
+					<button class="quick-btn" id="manage-cards-btn">
+					<span class="quick-btn__icon"><i data-lucide="credit-card"></i></span>
+					<span class="quick-btn__text">
+						<strong>Cards</strong>
+						<span>Manage your cards</span>
+					</span>
+					<i data-lucide="chevron-right" class="quick-btn__arrow"></i>
+				</button>
+				</div>
+
+				<!-- Dashboard grid -->
+				<div class="dash-grid animating">
+					<!-- Col A: Accounts + Payments -->
+					<div class="dash-col dash-col--a">
+						<div class="card" data-section-id="accounts">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="card__header">
+								<div class="section-head">
+									<h2 class="section-title">Accounts</h2>
+									<p class="section-caption">Your business accounts at a glance</p>
+								</div>
+							</div>
+							<div class="controls-row">
+								<div class="seg-control" role="radiogroup">
+									<label class="seg-control__btn seg-control__btn--active"><input type="radio" name="account-filter" value="all" data-filter="all" checked><span>All</span></label>
+									<label class="seg-control__btn"><input type="radio" name="account-filter" value="current" data-filter="current"><span>Current</span></label>
+									<label class="seg-control__btn"><input type="radio" name="account-filter" value="cards" data-filter="cards"><span>Cards</span></label>
+								</div>
+								<div class="sort-control">
+									<label for="sort-select" class="text-xs color-secondary">Sort:</label>
+									<select id="sort-select" class="select-sm">
+									<option value="default">Default</option>
+									<option value="value-desc">Value ↓</option>
+									<option value="value-asc">Value ↑</option>
+									<option value="currency">Currency</option>
+									<option value="type">Type</option>
+									<option value="name">Name</option>
+								</select>
+								</div>
+							</div>
+							<div class="list-rows" id="accounts-container"></div>
+						</div>
+
+						<div class="card" data-section-id="account-values-breakdown">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="section-head">
+								<h2 class="section-title">Account values</h2>
+								<p class="section-caption">Balance distribution across accounts</p>
+							</div>
+							<div class="chart-layout">
+								<div class="chart-layout__chart"><canvas id="account-values-chart"></canvas></div>
+								<div class="chart-layout__legend" id="account-values-legend"></div>
+							</div>
+						</div>
+
+						<div class="card" data-section-id="currency-map-container">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="card__header">
+								<div class="section-head">
+									<h2 class="section-title">Cash Location</h2>
+									<p class="section-caption">Where your currencies are held</p>
+								</div>
+								<div class="tab-group" role="tablist">
+									<button class="tab tab--active" data-map-type="flat" role="tab" aria-selected="true">Flat Map</button>
+									<button class="tab" data-map-type="globe" role="tab" aria-selected="false">3D Globe</button>
+								</div>
+							</div>
+							<div class="currency-map-wrapper">
+								<div id="flat-map" class="currency-map-canvas map-active"></div>
+								<div id="globe-container" class="currency-map-canvas"></div>
+							</div>
+						</div>
+
+
+					</div>
+
+					<!-- Col B: Analytics -->
+					<div class="dash-col dash-col--b">
+						<div class="card" data-section-id="spending-overview">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="card__header">
+								<div class="section-head">
+									<h2 class="section-title">Spending overview</h2>
+									<p class="section-caption">Account balances over time</p>
+								</div>
+								<div class="tab-group" role="tablist">
+									<button class="tab tab--active" data-range="6m" role="tab" aria-selected="true">6M</button>
+									<button class="tab" data-range="3m" role="tab" aria-selected="false">3M</button>
+									<button class="tab" data-range="1m" role="tab" aria-selected="false">1M</button>
+								</div>
+							</div>
+							<div class="chart-wrap">
+								<canvas id="spending-chart"></canvas>
+							</div>
+						</div>
+
+						<div class="card" data-section-id="fx-rates">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="section-head">
+								<h2 class="section-title">FX rates</h2>
+								<p class="section-caption">Live currency pair rates</p>
+							</div>
+							<div class="fx-grid" id="fx-grid"></div>
+						</div>
+
+						<div class="card" data-section-id="category-breakdown">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="section-head">
+								<h2 class="section-title">Category breakdown</h2>
+								<p class="section-caption">Top expense categories this month</p>
+							</div>
+							<div class="chart-layout">
+								<div class="chart-layout__chart"><canvas id="category-chart"></canvas></div>
+								<div class="chart-layout__legend" id="category-legend"></div>
+							</div>
+						</div>
+
+
+
+						<div class="card" data-section-id="insights">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="section-head">
+								<h2 class="section-title">Insights</h2>
+								<p class="section-caption">Signals based on your recent activity</p>
+							</div>
+							<div class="insights-list">
+								<div class="alert-item alert-item--warning">
+									<span class="icon-box icon-box--amber icon-box--sm"><i data-lucide="trending-up"></i></span>
+									<div>
+										<p class="text-xs">Software spending is <strong>23% higher</strong> than last month</p>
+										<span class="text-2xs color-secondary">6 subscriptions totalling 441.98</span>
+									</div>
+								</div>
+								<div class="alert-item alert-item--success">
+									<span class="icon-box icon-box--green icon-box--sm"><i data-lucide="piggy-bank"></i></span>
+									<div>
+										<p class="text-xs">You've saved <strong>12% more</strong> this quarter</p>
+										<span class="text-2xs color-secondary">Emergency fund growing steadily</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Col C: Supporting -->
+					<div class="dash-col dash-col--c">
+						<div class="card" data-section-id="payments-status">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="card__header">
+								<div class="section-head">
+									<h2 class="section-title">Payment status</h2>
+									<p class="section-caption">Outstanding actions and pipeline</p>
+								</div>
+								<a class="link link--sm" href="#" onclick="alert('Work in Progress');return false">View all</a>
+							</div>
+							<div class="list-rows">
+								<div class="list-row list-row--urgent" data-payment-type="pending-auth" role="button" tabindex="0">
+									<span class="icon-box icon-box--red icon-box--sm"><i data-lucide="shield-alert"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Pending authorisation</span>
+										<span class="text-2xs color-secondary">Requires your sign-off</span>
+									</div>
+									<span class="badge badge--red">5</span>
+								</div>
+								<div class="list-row list-row--warning" data-payment-type="pending-approval" role="button" tabindex="0">
+									<span class="icon-box icon-box--amber icon-box--sm"><i data-lucide="user-check"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Pending secondary approval</span>
+										<span class="text-2xs color-secondary">Awaiting secondary approver</span>
+									</div>
+									<span class="badge badge--amber">2</span>
+								</div>
+								<div class="list-row" data-payment-type="processing" role="button" tabindex="0">
+									<span class="icon-box icon-box--sm"><i data-lucide="loader"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Processing</span>
+										<span class="text-2xs color-secondary">Submitted and in progress</span>
+									</div>
+									<span class="badge badge--neutral">8</span>
+								</div>
+								<div class="list-row" data-payment-type="scheduled" role="button" tabindex="0">
+									<span class="icon-box icon-box--sm"><i data-lucide="calendar-clock"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Scheduled</span>
+										<span class="text-2xs color-secondary">Future-dated payments queued</span>
+									</div>
+									<span class="badge badge--neutral">12</span>
+								</div>
+								<div class="list-row list-row--urgent" data-payment-type="rejected" role="button" tabindex="0">
+									<span class="icon-box icon-box--red icon-box--sm"><i data-lucide="x-circle"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Rejected</span>
+										<span class="text-2xs color-secondary">Failed validation or declined</span>
+									</div>
+									<span class="badge badge--red">1</span>
+								</div>
+								<div class="list-row" data-payment-type="completed" role="button" tabindex="0">
+									<span class="icon-box icon-box--green icon-box--sm"><i data-lucide="check-circle-2"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Completed today</span>
+										<span class="text-2xs color-secondary">Successfully settled</span>
+									</div>
+									<span class="badge badge--green">24</span>
+								</div>
+							</div>
+						</div>
+						<div class="card" data-section-id="trade-transactions">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="card__header">
+								<div class="section-head">
+									<h2 class="section-title">Outstanding trade transactions</h2>
+									<p class="section-caption">Documentary credits, trade loans &amp; import presentations</p>
+								</div>
+								<a class="link link--sm" href="#" onclick="alert('Work in Progress');return false">View all</a>
+							</div>
+							<div class="list-rows">
+								<div class="list-row list-row--warning" data-payment-type="documentary-credits" role="button"
+									tabindex="0">
+									<span class="icon-box icon-box--amber icon-box--sm"><i data-lucide="file-text"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Documentary credits</span>
+										<span class="text-2xs color-secondary">Pending issuance or amendment</span>
+									</div>
+									<span class="badge badge--amber">3</span>
+								</div>
+								<div class="list-row" data-payment-type="trade-loans" role="button" tabindex="0">
+									<span class="icon-box icon-box--sm"><i data-lucide="landmark"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Trade loans</span>
+										<span class="text-2xs color-secondary">Active drawdowns and renewals</span>
+									</div>
+									<span class="badge badge--neutral">5</span>
+								</div>
+								<div class="list-row list-row--urgent" data-payment-type="import-presentations" role="button"
+									tabindex="0">
+									<span class="icon-box icon-box--red icon-box--sm"><i data-lucide="package"></i></span>
+									<div class="list-row__body">
+										<span class="text-sm fw-500">Import presentations</span>
+										<span class="text-2xs color-secondary">Documents awaiting acceptance</span>
+									</div>
+									<span class="badge badge--red">2</span>
+								</div>
+							</div>
+						</div>
+						<div class="card" data-section-id="loans">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="card__header">
+								<div class="section-head">
+									<h2 class="section-title">Loans</h2>
+									<p class="section-caption">Borrowing and repayment progress</p>
+								</div>
+								<a class="link link--sm" href="#" onclick="alert('Work in Progress');return false">Manage</a>
+							</div>
+							<div class="list-rows">
+								<div class="progress-item inset-card">
+									<div class="progress-item__header">
+										<div class="row-center gap-sm">
+											<span class="icon-box"><i data-lucide="hand-coins"></i></span>
+											<div>
+												<p class="text-sm fw-600">Business term loan</p>
+												<p class="text-2xs color-secondary">Original 80,000.00 GBP</p>
+											</div>
+										</div>
+										<div class="text-right">
+											<p class="amount-lg">48,250.00</p>
+											<p class="label-upper color-secondary">Outstanding</p>
+										</div>
+									</div>
+									<div class="progress-block">
+										<div class="row-apart text-2xs color-secondary">
+											<span>61% repaid</span><span>31,750.00 paid</span>
+										</div>
+										<div class="progress-bar"><span style="width:61%"></span></div>
+									</div>
+									<div class="meta-grid">
+										<div class="meta-item">
+											<span class="label-upper color-secondary">Next</span><strong class="text-xs">1,245.00</strong>
+										</div>
+										<div class="meta-item">
+											<span class="label-upper color-secondary">Due</span><strong class="text-xs">22 Mar 2026</strong>
+										</div>
+										<div class="meta-item">
+											<span class="label-upper color-secondary">Left</span><strong class="text-xs">18 months</strong>
+										</div>
+									</div>
+								</div>
+								<div class="progress-item inset-card">
+									<div class="progress-item__header">
+										<div class="row-center gap-sm">
+											<span class="icon-box"><i data-lucide="badge-pound-sterling"></i></span>
+											<div>
+												<p class="text-sm fw-600">Revolving credit</p>
+												<p class="text-2xs color-secondary">Limit 120,000.00 GBP</p>
+											</div>
+										</div>
+										<div class="text-right">
+											<p class="amount-lg">37,800.00</p>
+											<p class="label-upper color-secondary">Utilised</p>
+										</div>
+									</div>
+									<div class="progress-block">
+										<div class="row-apart text-2xs color-secondary">
+											<span>31% utilised</span><span>82,200.00 available</span>
+										</div>
+										<div class="progress-bar progress-bar--neutral"><span style="width:31%"></span></div>
+									</div>
+									<div class="meta-grid">
+										<div class="meta-item">
+											<span class="label-upper color-secondary">Rate</span><strong class="text-xs">5.9% var</strong>
+										</div>
+										<div class="meta-item">
+											<span class="label-upper color-secondary">Review</span><strong class="text-xs">30 Jun 2026</strong>
+										</div>
+										<div class="meta-item">
+											<span class="label-upper color-secondary">Status</span><strong class="text-xs">Good</strong>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card" data-section-id="upcoming-payments">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="card__header">
+								<div class="section-head">
+									<h2 class="section-title">Upcoming payments</h2>
+									<p class="section-caption">Scheduled outgoings</p>
+								</div>
+								<a class="link link--sm" href="#" onclick="alert('Work in Progress');return false">See all</a>
+							</div>
+							<div class="list-rows">
+								<div class="list-row">
+									<span class="icon-box icon-box--sm"><i data-lucide="home"></i></span>
+									<div class="list-row__info">
+										<span class="text-sm fw-500">Office Rent</span>
+										<span class="text-2xs color-secondary">Due 15 Mar 2026</span>
+									</div>
+									<span class="text-sm fw-500">-2,400.00</span>
+								</div>
+								<div class="list-row">
+									<span class="icon-box icon-box--sm"><i data-lucide="wifi"></i></span>
+									<div class="list-row__info">
+										<span class="text-sm fw-500">Internet Bill</span>
+										<span class="text-2xs color-secondary">Due 18 Mar 2026</span>
+									</div>
+									<span class="text-sm fw-500">-89.99</span>
+								</div>
+								<div class="list-row">
+									<span class="icon-box icon-box--sm"><i data-lucide="zap"></i></span>
+									<div class="list-row__info">
+										<span class="text-sm fw-500">Electricity</span>
+										<span class="text-2xs color-secondary">Due 20 Mar 2026</span>
+									</div>
+									<span class="text-sm fw-500">-156.40</span>
+								</div>
+								<div class="list-row">
+									<span class="icon-box icon-box--sm"><i data-lucide="shield"></i></span>
+									<div class="list-row__info">
+										<span class="text-sm fw-500">Business Insurance</span>
+										<span class="text-2xs color-secondary">Due 25 Mar 2026</span>
+									</div>
+									<span class="text-sm fw-500">-685.00</span>
+								</div>
+							</div>
+						</div>
+
+
+						<!-- Payment Panel -->
+						<div class="card card--payment-flow" data-section-id="payment-panel" id="payment-panel">
+							<button class="remove-btn" type="button" aria-label="Remove panel"><i data-lucide="x"></i></button>
+							<div class="card__header">
+								<div class="section-head">
+									<h2 class="section-title">New Payment</h2>
+									<p class="section-caption" id="pf-step-caption">Step 1 of 4 — Choose payee</p>
+								</div>
+								<button class="btn-ghost btn-sm" id="pf-restart" type="button" aria-label="Restart payment flow" style="display:none"><i data-lucide="rotate-ccw"></i></button>
+							</div>
+
+							<!-- Step indicators -->
+							<ol class="pf-stepper" aria-label="Payment steps">
+								<li class="pf-stepper__step pf-stepper__step--active" data-step="1" aria-current="step">
+									<span class="pf-stepper__bubble">1</span>
+									<span class="pf-stepper__label">Payee</span>
+								</li>
+								<li class="pf-stepper__step" data-step="2">
+									<span class="pf-stepper__bubble">2</span>
+									<span class="pf-stepper__label">Details</span>
+								</li>
+								<li class="pf-stepper__step" data-step="3">
+									<span class="pf-stepper__bubble">3</span>
+									<span class="pf-stepper__label">Review</span>
+								</li>
+								<li class="pf-stepper__step" data-step="4">
+									<span class="pf-stepper__bubble"><i data-lucide="check" aria-hidden="true"></i></span>
+									<span class="pf-stepper__label">Done</span>
+								</li>
+							</ol>
+
+
+							<!-- ── Step 1: Choose payee ── -->
+							<div class="pf-step" id="pf-step-1">
+								<div class="pf-payee-search">
+									<label class="sr-only" for="pf-payee-input">Search payees</label>
+									<span class="pf-payee-search__icon"><i data-lucide="search"></i></span>
+									<input class="pf-payee-search__input" id="pf-payee-input" type="search" placeholder="Search saved payees…" autocomplete="off" aria-autocomplete="list" aria-controls="pf-payee-list">
+								</div>
+								<ul class="pf-payee-list" id="pf-payee-list" role="listbox" aria-label="Payee suggestions">
+									<li class="pf-payee-item" role="option" tabindex="0" data-payee="Nexwave Technologies"
+										data-account="GB29 NWBK 6016 1331 9268 19" data-sort="20-32-19">
+										<span class="pf-payee-item__avatar">NT</span>
+										<div class="pf-payee-item__info">
+											<span class="pf-payee-item__name">Nexwave Technologies</span>
+											<span class="pf-payee-item__meta">GB29 NWBK 6016 1331 9268 19 · 20-32-19</span>
+										</div>
+										<span class="badge badge--neutral">Recent</span>
+									</li>
+									<li class="pf-payee-item" role="option" tabindex="0" data-payee="ABC Corp Ltd"
+										data-account="GB94 BARC 2006 0513 3456 78" data-sort="20-60-51">
+										<span class="pf-payee-item__avatar">AC</span>
+										<div class="pf-payee-item__info">
+											<span class="pf-payee-item__name">ABC Corp Ltd</span>
+											<span class="pf-payee-item__meta">GB94 BARC 2006 0513 3456 78 · 20-60-51</span>
+										</div>
+										<span class="badge badge--neutral">Recent</span>
+									</li>
+									<li class="pf-payee-item" role="option" tabindex="0" data-payee="HMRC VAT"
+										data-account="GB62 HMRC 0001 0013 0002 00" data-sort="08-32-10">
+										<span class="pf-payee-item__avatar">HV</span>
+										<div class="pf-payee-item__info">
+											<span class="pf-payee-item__name">HMRC VAT</span>
+											<span class="pf-payee-item__meta">GB62 HMRC 0001 0013 0002 00 · 08-32-10</span>
+										</div>
+									</li>
+								</ul>
+
+								<div class="pf-or-divider"><span>or</span></div>
+
+								<div class="pf-new-payee-fields">
+									<p class="pf-new-payee-fields__heading">New payee</p>
+									<div class="form__field">
+										<label class="form__label" for="pf-new-name">Payee name</label>
+										<input class="form__input" id="pf-new-name" type="text" placeholder="e.g. Acme Ltd" autocomplete="off">
+									</div>
+									<div class="pf-row">
+										<div class="form__field">
+											<label class="form__label" for="pf-new-sort">Sort code</label>
+											<input class="form__input" id="pf-new-sort" type="text" placeholder="00-00-00" maxlength="8">
+										</div>
+										<div class="form__field">
+											<label class="form__label" for="pf-new-account">Account number</label>
+											<input class="form__input" id="pf-new-account" type="text" placeholder="12345678" maxlength="8">
+										</div>
+									</div>
+									<button class="btn-primary btn-sm pf-new-payee-fields__cta" id="pf-add-new-payee" type="button">Continue with new payee</button>
+								</div>
+							</div>
+
+
+
+
+
+							<!-- ── Step 2: Payment details ── -->
+							<div class="pf-step" id="pf-step-2" hidden>
+								<div class="pf-selected-payee" id="pf-selected-payee">
+									<span class="pf-payee-item__avatar" id="pf-sel-avatar">—</span>
+									<div class="pf-selected-payee__info">
+										<span class="text-sm fw-600" id="pf-sel-name">—</span>
+										<span class="text-2xs color-secondary" id="pf-sel-meta">—</span>
+									</div>
+									<button class="btn-link text-xs" id="pf-change-payee" type="button">Change</button>
+								</div>
+
+								<div class="form__field">
+									<label class="form__label" for="pf-from">Pay from</label>
+									<select class="form__input" id="pf-from" aria-label="Source account"></select>
+								</div>
+
+								<div class="form__field">
+
+									<label class="form__label" for="pf-amount">Amount</label>
+									<div class="pf-amount-wrap">
+										<select class="pf-currency-select" id="pf-currency" aria-label="Currency">
+												<option value="GBP">£ GBP</option>
+												<option value="USD">$ USD</option>
+												<option value="EUR">€ EUR</option>
+												<option value="AUD">A$ AUD</option>
+											</select>
+										<input class="form__input pf-amount-input" id="pf-amount" type="number" min="0.01" step="0.01" placeholder="0.00" aria-label="Payment amount">
+									</div>
+								</div>
+
+								<div class="form__field">
+									<label class="form__label" for="pf-ref">Reference <span class="text-2xs color-secondary">(optional)</span></label>
+									<input class="form__input" id="pf-ref" type="text" placeholder="e.g. Invoice #1042" maxlength="18">
+								</div>
+
+								<div class="pf-row">
+									<div class="form__field">
+										<label class="form__label" for="pf-date">Payment date</label>
+										<input class="form__input" id="pf-date" type="date">
+									</div>
+									<div class="form__field">
+										<label class="form__label" for="pf-type">Type</label>
+										<select class="form__input" id="pf-type">
+												<option value="faster">Faster Payments</option>
+												<option value="chaps">CHAPS</option>
+												<option value="bacs">BACS</option>
+												<option value="swift">SWIFT</option>
+											</select>
+									</div>
+								</div>
+
+								<div class="pf-actions">
+									<button class="btn-ghost btn-sm" id="pf-back-1" type="button"><i data-lucide="arrow-left"></i> Back</button>
+									<button class="btn-primary" id="pf-to-review" type="button">Review <i data-lucide="arrow-right"></i></button>
+								</div>
+							</div>
+
+							<!-- ── Step 3: Review ── -->
+							<div class="pf-step" id="pf-step-3" hidden>
+								<div class="pf-review-card">
+									<div class="pf-review-row">
+										<span class="pf-review-row__label">From</span>
+										<span class="pf-review-row__value" id="rv-from">—</span>
+									</div>
+									<div class="pf-review-row">
+										<span class="pf-review-row__label">Payee</span>
+										<span class="pf-review-row__value" id="rv-payee">—</span>
+									</div>
+									<div class="pf-review-row">
+										<span class="pf-review-row__label">Account</span>
+										<span class="pf-review-row__value" id="rv-account">—</span>
+									</div>
+									<div class="pf-review-row">
+										<span class="pf-review-row__label">Sort code</span>
+										<span class="pf-review-row__value" id="rv-sort">—</span>
+									</div>
+									<div class="pf-review-row pf-review-row--highlight">
+										<span class="pf-review-row__label">Amount</span>
+										<span class="pf-review-row__value fw-700" id="rv-amount">—</span>
+									</div>
+									<div class="pf-review-row">
+										<span class="pf-review-row__label">Reference</span>
+										<span class="pf-review-row__value" id="rv-ref">—</span>
+									</div>
+									<div class="pf-review-row">
+										<span class="pf-review-row__label">Date</span>
+										<span class="pf-review-row__value" id="rv-date">—</span>
+									</div>
+									<div class="pf-review-row">
+										<span class="pf-review-row__label">Type</span>
+										<span class="pf-review-row__value" id="rv-type">—</span>
+									</div>
+								</div>
+								<p class="pf-review-notice"><i data-lucide="shield-check" aria-hidden="true"></i> Payments are protected
+									by 2-factor authorisation</p>
+								<div class="pf-actions">
+									<button class="btn-ghost btn-sm" id="pf-back-2" type="button"><i data-lucide="arrow-left"></i> Back</button>
+									<button class="btn-primary btn-primary--red" id="pf-confirm" type="button"><i data-lucide="send"></i> Confirm &amp; send</button>
+								</div>
+							</div>
+
+
+							<!-- ── Step 4: Complete ── -->
+							<div class="pf-step pf-step--complete" id="pf-step-4" hidden>
+								<div class="pf-complete">
+									<div class="pf-complete__icon" aria-hidden="true"><i data-lucide="circle-check-big"></i></div>
+									<h3 class="pf-complete__title">Payment sent</h3>
+									<p class="pf-complete__sub" id="pf-complete-sub">Your payment has been submitted.</p>
+									<div class="pf-complete__ref">
+										<span class="text-2xs color-secondary">Payment reference</span>
+										<span class="text-sm fw-600" id="pf-complete-ref">—</span>
+									</div>
+									<button class="btn-primary btn-full" id="pf-make-another" type="button">Make another payment</button>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+
+				<div id="page-accounts" class="page-view">
+					<div class="page-header">
+						<div>
+							<p class="eyebrow">Manage</p>
+							<h1 class="page-title">Accounts</h1>
+						</div>
+						<div class="page-header__actions">
+							<button class="btn-ghost btn-sm" onclick="alert('Work in Progress')">
+				<i data-lucide="download"></i>
+				<span>Export</span>
+			</button>
+							<button class="btn-primary btn-sm" onclick="alert('Work in Progress')">
+				<i data-lucide="plus"></i>
+				<span>Add account</span>
+			</button>
+						</div>
+					</div>
+
+					<div class="acct-summary-strip">
+						<div class="acct-summary-card acct-summary-card--primary">
+							<div class="acct-summary-card__icon"><i data-lucide="banknote"></i></div>
+							<div>
+								<span class="acct-summary-card__label">Total balance</span>
+								<span class="acct-summary-card__value" id="acct-total-balance">0.00</span>
+								<span class="acct-summary-card__sub">GBP · FX adjusted</span>
+							</div>
+						</div>
+						<div class="acct-summary-card">
+							<div class="acct-summary-card__icon"><i data-lucide="layers"></i></div>
+							<div>
+								<span class="acct-summary-card__label">Active accounts</span>
+								<span class="acct-summary-card__value" id="acct-count">0</span>
+								<span class="acct-summary-card__sub">Across all regions</span>
+							</div>
+						</div>
+						<div class="acct-summary-card">
+							<div class="acct-summary-card__icon"><i data-lucide="globe"></i></div>
+							<div>
+								<span class="acct-summary-card__label">Currencies</span>
+								<span class="acct-summary-card__value" id="acct-currencies">0</span>
+								<span class="acct-summary-card__sub">In use</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="acct-toolbar">
+						<div class="acct-search">
+							<i data-lucide="search"></i>
+							<input type="text" id="acct-search-input" placeholder="Search by name, number, or country…" class="acct-search__input" aria-label="Search accounts">
+						</div>
+						<div class="acct-filters">
+							<select id="acct-type-filter" class="select-sm" aria-label="Filter by type">
+				<option value="all">All types</option>
+				<option value="CA">Current accounts</option>
+				<option value="CC">Credit cards</option>
+			</select>
+							<select id="acct-currency-filter" class="select-sm" aria-label="Filter by currency">
+				<option value="all">All currencies</option>
+				<option value="GBP">GBP</option>
+				<option value="USD">USD</option>
+			</select>
+							<select id="acct-sort-filter" class="select-sm" aria-label="Sort accounts">
+				<option value="default">Sort: Default</option>
+				<option value="balance-desc">Balance ↓</option>
+				<option value="balance-asc">Balance ↑</option>
+				<option value="name">Name A–Z</option>
+				<option value="type">Type</option>
+			</select>
+						</div>
+					</div>
+
+					<div id="accounts-page-list" class="acct-list"></div>
+					<div id="accounts-page-empty" class="acct-empty" style="display:none">
+						<i data-lucide="search-x"></i>
+						<p>No accounts match your filters</p>
+						<button class="btn-ghost btn-sm" id="acct-clear-filters">Clear filters</button>
+					</div>
+				</div>
+
+				<!-- Payments Page -->
+				<div id="page-payments" class="page-view">
+					<div class="page-header">
+						<div>
+							<p class="eyebrow">Transactions</p>
+							<h1 class="page-title">Payments</h1>
+						</div>
+					</div>
+					<div class="card">
+						<div class="section-head">
+							<h2 class="section-title">Payment History</h2>
+							<p class="section-caption">Your recent payments and transfers</p>
+						</div>
+						<p style="padding: 20px; color: var(--c-text-3);">Payments page content coming soon...</p>
+					</div>
+				</div>
+
+				<!-- Loans Page -->
+				<div id="page-loans" class="page-view">
+					<div class="page-header">
+						<div>
+							<p class="eyebrow">Borrowing</p>
+							<h1 class="page-title">Loans</h1>
+						</div>
+					</div>
+					<div class="card">
+						<div class="section-head">
+							<h2 class="section-title">Active Loans</h2>
+							<p class="section-caption">Manage your loan accounts</p>
+						</div>
+						<p style="padding: 20px; color: var(--c-text-3);">Loans page content coming soon...</p>
+					</div>
+				</div>
+
+				<!-- Insights Page -->
+				<div id="page-insights" class="page-view">
+					<div class="page-header">
+						<div>
+							<p class="eyebrow">Analytics</p>
+							<h1 class="page-title">Insights</h1>
+						</div>
+					</div>
+					<div class="card">
+						<div class="section-head">
+							<h2 class="section-title">Financial Insights</h2>
+							<p class="section-caption">Get smarter with your money</p>
+						</div>
+						<p style="padding: 20px; color: var(--c-text-3);">Insights page content coming soon...</p>
+					</div>
+				</div>
+
+				<!-- Permissions Page -->
+				<div id="page-permissions" class="page-view">
+					<div class="page-header">
+						<div>
+							<p class="eyebrow">Security</p>
+							<h1 class="page-title">Permissions</h1>
+						</div>
+					</div>
+					<div class="permissions-container">
+						<!-- Org Chart -->
+						<div class="org-chart-panel">
+							<div class="section-head">
+								<h2 class="section-title">Organization</h2>
+								<p class="section-caption">Company structure</p>
+							</div>
+							<div class="org-tree" id="org-tree"></div>
+						</div>
+
+						<!-- Permissions Panel -->
+						<div class="permissions-panel">
+							<div class="permissions-header">
+								<h2 class="section-title">User Permissions</h2>
+								<p class="section-caption" id="selected-user">Select a user to manage permissions</p>
+							</div>
+							<div id="permissions-content" class="permissions-content"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Reports Page -->
+				<div id="page-reports" class="page-view">
+					<div class="page-header">
+						<div>
+							<p class="eyebrow">Statements</p>
+							<h1 class="page-title">Reports</h1>
+						</div>
+					</div>
+					<div class="card">
+						<div class="section-head">
+							<h2 class="section-title">Financial Reports</h2>
+							<p class="section-caption">View your statements and reports</p>
+						</div>
+						<p style="padding: 20px; color: var(--c-text-3);">Reports page content coming soon...</p>
+					</div>
+				</div>
+
+		</main>
+	</div>
+</div>
+
+<!-- Slide panel -->
+<div id="slide-panel" class="panel" aria-hidden="true" inert>
+	<div class="panel__view" id="panel-view-account">
+		<div class="panel__header">
+			<div class="panel__header-top">
+				<h2 class="panel__title" id="panel-account-name">Account Details</h2>
+				<button class="btn-icon" id="close-panel" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+			</div>
+			<div class="panel__meta" id="panel-account-details"></div>
+			<div class="panel__balance-row">
+				<div><span class="label-upper">Available</span><span class="panel__balance" id="panel-balance">0.00</span></div>
+				<div><span class="label-upper">Currency</span><span class="panel__balance" id="panel-currency">—</span></div>
+			</div>
+			<button class="btn-primary btn-full" onclick="alert('Work in Progress')"><i data-lucide="file-text"></i> Statements</button>
+		</div>
+		<div class="panel__tabs">
+			<button class="panel__tab panel__tab--active" data-tab="all">All</button>
+			<button class="panel__tab" data-tab="in">Money in</button>
+			<button class="panel__tab" data-tab="out">Money out</button>
+		</div>
+		<div class="panel__search">
+			<i data-lucide="search"></i>
+			<input type="text" class="panel__search-input" id="txn-search" placeholder="Search transactions…">
+		</div>
+		<div id="transactions-list" class="item-rows"></div>
+	</div>
+
+	<div class="panel__view" id="panel-view-payments" style="display:none">
+		<div class="panel__header">
+			<div class="panel__header-top">
+				<h2 class="panel__title" id="panel-payments-title">Payments</h2>
+				<button class="btn-icon" id="close-panel-payments" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+			</div>
+			<p class="text-xs color-secondary mt-xs" id="panel-payments-subtitle"></p>
+		</div>
+		<div id="panel-payments-list"></div>
+	</div>
+
+	<div class="panel__view" id="panel-view-cards" style="display:none">
+		<div class="panel__header">
+			<div class="panel__header-top">
+				<h2 class="panel__title">Card Manager</h2>
+				<button class="btn-icon" id="close-panel-cards" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+			</div>
+			<p class="text-xs color-secondary mt-xs">Manage your physical & virtual cards</p>
+		</div>
+		<button class="btn-primary btn-full" id="create-virtual-card" style="margin: var(--gap-md)"><i data-lucide="plus"></i> Create Virtual Card</button>
+		<div id="cards-list" class="cards-grid"></div>
+	</div>
+
+	<div class="panel__view" id="panel-view-send-money" style="display:none">
+		<div class="panel__header">
+			<div class="panel__header-top">
+				<h2 class="panel__title">Send Money</h2>
+				<button class="btn-icon" id="close-panel-send-money" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+			</div>
+			<p class="text-xs color-secondary mt-xs">Make a domestic or international payment</p>
+		</div>
+		<div id="send-money-body">
+			<form class="form" id="send-money-form" novalidate>
+				<div class="form__section">
+					<h3 class="form__section-title">From account</h3>
+					<div class="form__field">
+						<label class="form__label" for="sm-from-account">Account</label>
+						<select class="form__input" id="sm-from-account">
+							<option value="">Select account…</option>
+							<option value="0">AU HKBA 253-070767-439 · GBP 20,000.00</option>
+							<option value="1">PRICE K Q · GBP 30,000.00</option>
+							<option value="2">530-3946 · USD 10,000.00</option>
+						</select>
+					</div>
+				</div>
+				<div class="form__section">
+					<h3 class="form__section-title">Recipient</h3>
+					<div class="form__field">
+						<label class="form__label" for="sm-payee-name">Payee name</label>
+						<input class="form__input" id="sm-payee-name" type="text" placeholder="e.g. ABC Corp Ltd">
+					</div>
+					<div class="form__field">
+						<label class="form__label" for="sm-sort-code">Sort code</label>
+						<input class="form__input" id="sm-sort-code" type="text" placeholder="XX-XX-XX" maxlength="8">
+					</div>
+					<div class="form__field">
+						<label class="form__label" for="sm-account-number">Account number</label>
+						<input class="form__input" id="sm-account-number" type="text" placeholder="8-digit number" maxlength="8">
+					</div>
+				</div>
+				<div class="form__section">
+					<h3 class="form__section-title">Payment details</h3>
+					<div class="form__row">
+						<div class="form__field">
+							<label class="form__label" for="sm-amount">Amount</label>
+							<input class="form__input" id="sm-amount" type="number" min="0.01" step="0.01" placeholder="0.00">
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="sm-currency">Currency</label>
+							<select class="form__input" id="sm-currency">
+								<option value="GBP">GBP</option>
+								<option value="USD">USD</option>
+								<option value="EUR">EUR</option>
+								<option value="AUD">AUD</option>
+								<option value="HKD">HKD</option>
+							</select>
+						</div>
+					</div>
+					<div class="form__field">
+						<label class="form__label" for="sm-reference">Reference</label>
+						<input class="form__input" id="sm-reference" type="text" placeholder="e.g. Invoice #1042" maxlength="18">
+					</div>
+					<div class="form__field">
+						<label class="form__label" for="sm-date">Payment date</label>
+						<input class="form__input" id="sm-date" type="date" value="2026-03-09">
+					</div>
+					<div class="form__field">
+						<label class="form__label" for="sm-type">Payment type</label>
+						<select class="form__input" id="sm-type">
+							<option value="faster">Faster Payments</option>
+							<option value="chaps">CHAPS</option>
+							<option value="bacs">BACS</option>
+							<option value="international">International (SWIFT)</option>
+						</select>
+					</div>
+				</div>
+				<div class="form__actions">
+					<button class="btn-primary btn-full" type="submit"><i data-lucide="send"></i> Review payment</button>
+					<button class="btn-ghost btn-full" type="button" id="sm-cancel">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Mobile nav -->
+<nav class="mobile-nav" aria-label="Mobile navigation">
+	<a href="#" class="mobile-nav__item active"><i data-lucide="layout-dashboard"></i><span>Home</span></a>
+	<a href="#" class="mobile-nav__item"><i data-lucide="wallet"></i><span>Accounts</span></a>
+	<a href="#" class="mobile-nav__item mobile-nav__item--fab"
+		id="send-money-btn-mobile"><span class="mobile-nav__fab"><i data-lucide="send"></i></span><span>Pay</span></a>
+	<a href="#" class="mobile-nav__item"><i data-lucide="bar-chart-3"></i><span>Insights</span></a>
+	<button class="mobile-nav__item" id="theme-toggle-mobile" aria-pressed="false"><i data-lucide="moon"></i><span>More</span></button>
+</nav>
+
+<script type="application/json" id="accounts-data">
+	{
+		"accounts": [
+			{
+				"accInst": "HBAU",
+				"fmtdAccNo": "253-070767-439",
+				"unFmtdAccNo": "253070767439",
+				"name": "AU HKBA 253-070767-439",
+				"available": "20000.00",
+				"accCntryCode": "AU",
+				"currency": "GBP",
+				"accType": "CA"
+			},
+			{
+				"accInst": "HBAU",
+				"fmtdAccNo": "001-017318-001",
+				"unFmtdAccNo": "001017318001",
+				"name": "PRICE K Q",
+				"available": "30000.00",
+				"accCntryCode": "CN",
+				"currency": "CNY",
+				"accType": "CA"
+			},
+			{
+				"accInst": "HASE",
+				"fmtdAccNo": "531-484475-020",
+				"unFmtdAccNo": "531484475020",
+				"name": "530-3946",
+				"available": "10000.00",
+				"accCntryCode": "USA",
+				"currency": "USD",
+				"accType": "CA"
+			},
+			{
+				"accInst": "HASE",
+				"fmtdAccNo": "531-484475-020",
+				"unFmtdAccNo": "531484475020",
+				"name": "Davids Card",
+				"available": "5000.00",
+				"accCntryCode": "CN",
+				"currency": "GBP",
+				"accType": "CC"
+			},
+			{
+			"accInst": "HASE",
+			"fmtdAccNo": "221-332-332",
+			"unFmtdAccNo": "531484475020",
+			"name": "Ambers Card",
+			"available": "15000.00",
+			"accCntryCode": "CN",
+			"currency": "GBP",
+			"accType": "CC"
+			},
+			{
+			"accInst": "HBAU",
+			"fmtdAccNo": "800-224561-003",
+			"unFmtdAccNo": "800224561003",
+			"name": "AU Business Account",
+			"available": "42500.00",
+			"accCntryCode": "AU",
+			"currency": "AUD",
+			"accType": "CA"
+			}
+		]
+	}
+</script>
+<script src="script.js"></script>
+</body>
+</html>
